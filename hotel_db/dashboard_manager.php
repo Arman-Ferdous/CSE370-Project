@@ -31,7 +31,7 @@ $totalReceived = $totalRow['total_received'] ?? 0;
 <head>
   <meta charset="UTF-8">
   <title>Manager Dashboard</title>
-  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="CSS/dashboard.css">
 </head>
 <body>
 
