@@ -8,7 +8,7 @@ session_destroy();
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="2;url=login.html">
+  <meta http-equiv="refresh" content="2;url=login.php">
   <title>Logging Out</title>
   <link rel="stylesheet" href="CSS/style.css">
   <style>
