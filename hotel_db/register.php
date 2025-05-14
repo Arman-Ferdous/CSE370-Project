@@ -12,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $mobile = $_POST['mobile'];
   $nid = $_POST['nid'];
 
-  $stmt = $conn->prepare("INSERT INTO users (username, password, fname, lname, email, address, mobile, nid, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'customer')");
-  $stmt->bind_param("ssssssss", $username, $password, $fname, $lname, $email, $address, $mobile, $nid);
+  $stmt = $conn->prepare("INSERT INTO users (username, password, fname, lname, role) VALUES (?, ?, ?, ?, 'customer')");
+  $stmt->bind_param("ssssssss", $username, $password, $fname, $lname);
   if ($stmt->execute()) {
     header("Location: login.php");
     exit();
@@ -56,11 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-
-      <div class="form-group">
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
       </div>
@@ -68,21 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" name="confirm_password" required>
-      </div>
-
-      <div class="form-group">
-        <label for="address">Address</label>
-        <textarea id="address" name="address" rows="3" required></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="mobile">Mobile Number</label>
-        <input type="text" id="mobile" name="mobile" required>
-      </div>
-
-      <div class="form-group">
-        <label for="nid">NID Number</label>
-        <input type="text" id="nid" name="nid" required>
       </div>
 
       <button type="submit" class="login-btn">Register</button>
