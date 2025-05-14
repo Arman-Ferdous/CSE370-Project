@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
   <meta charset="UTF-8">
   <title>Login - Hotel Management System</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
 
