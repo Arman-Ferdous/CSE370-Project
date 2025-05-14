@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
 
     <div class="bottom-text">
-      <a href="index.php">← Back to Home</a>
+      Don't have an account? <a href="register.php">Register</a>
     </div>
   </div>
 
