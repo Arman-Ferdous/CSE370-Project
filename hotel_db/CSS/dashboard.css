@@ -1,70 +1,71 @@
 body {
-  background-color: #f0f8ff;
   font-family: Arial, sans-serif;
-  color: #003366;
+  background-color: #eef4ff;
   margin: 0;
-  padding: 0;
+  padding: 20px;
+  color: #333;
 }
 
-.form-container {
-  max-width: 400px;
-  margin: 60px auto;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 51, 102, 0.2);
+h1 {
+  color: #1e3a8a;
+  margin-bottom: 10px;
 }
 
-h2 {
-  text-align: center;
-  color: #005b99;
+h2, h4 {
+  margin-top: 30px;
+  color: #2563eb;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
+table {
+  width: 100%;
+  border-collapse: collapse;
   margin-top: 10px;
-  font-weight: bold;
 }
 
-input {
-  padding: 8px;
-  margin-top: 5px;
+th, td {
   border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #dbeafe;
+}
+
+td {
+  background-color: #ffffff;
 }
 
 button {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #007acc;
+  padding: 6px 12px;
+  background-color: #dc2626;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #005fa3;
+  background-color: #b91c1c;
 }
 
-.message {
-  text-align: center;
-  font-weight: bold;
-  color: green;
-}
-
-.back-link {
-  display: block;
+a {
+  display: inline-block;
   margin-top: 15px;
-  text-align: center;
-  color: #005b99;
+  color: #2563eb;
   text-decoration: none;
+  font-weight: bold;
 }
 
-.back-link:hover {
+a:hover {
   text-decoration: underline;
+}
+
+form {
+  display: inline;
+}
+
+.logout-btn {
+  background-color: #2563eb;
+  margin-top: 20px;
 }
