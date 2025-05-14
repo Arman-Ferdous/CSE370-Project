@@ -1,64 +1,91 @@
 <?php
-// confirm_payment.php
 include 'dbconnect.php';
 session_start();
-if ($_SESSION['role'] != 'manager') die('Access denied.');
-
-if (isset($_POST['mark_paid'])) {
-  $id = $_POST['booking_id'];
-  $conn->query("UPDATE payments SET status='paid', paid_at=NOW() WHERE booking_id=$id");
-  $conn->query("UPDATE bookings SET status='paid' WHERE id=$id");
+if ($_SESSION['role'] != 'customer') die('Access denied.');
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
+  session_unset();
+  session_destroy();
+  header("Location: login.php");
+  exit;
 }
+$_SESSION['LAST_ACTIVITY'] = time();
 
-$result = $conn->query("SELECT p.booking_id, u.username, r.room_number, b.check_in_date, b.check_out_date, p.amount, p.status FROM payments p JOIN bookings b ON p.booking_id = b.id JOIN users u ON b.user_id = u.id JOIN rooms r ON b.room_id = r.id WHERE p.status='pending'");
+$id = $_SESSION['user_id'];
+$unpaid = $conn->query("SELECT b.id, r.room_number, b.check_in_date, b.check_out_date, p.amount, p.status FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN payments p ON b.id = p.booking_id WHERE b.user_id = $id AND p.status = 'pending'");
+$paid = $conn->query("SELECT b.id, r.room_number, b.check_in_date, b.check_out_date, p.amount, p.status FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN payments p ON b.id = p.booking_id WHERE b.user_id = $id AND p.status = 'paid'");
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Confirm Payments</title>
-  <link rel="stylesheet" href="CSS/payment.css">
+  <title>Customer Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-  <div class="container">
-    <h2>Pending Payments</h2>
 
-    <?php if ($result->num_rows === 0): ?>
-      <p style="text-align:center;">No pending payments at the moment.</p>
-    <?php else: ?>
-      <form method="post">
-        <table>
-          <tr>
-            <th>#Booking</th>
-            <th>User</th>
-            <th>Room</th>
-            <th>Check-In</th>
-            <th>Check-Out</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-          <?php while ($row = $result->fetch_assoc()): ?>
-            <tr>
-              <td><?= $row['booking_id'] ?></td>
-              <td><?= htmlspecialchars($row['username']) ?></td>
-              <td><?= $row['room_number'] ?></td>
-              <td><?= $row['check_in_date'] ?></td>
-              <td><?= $row['check_out_date'] ?></td>
-              <td>$<?= number_format($row['amount'], 2) ?></td>
-              <td><?= ucfirst($row['status']) ?></td>
-              <td>
-                <input type="hidden" name="booking_id" value="<?= $row['booking_id'] ?>">
-                <button type="submit" name="mark_paid">Mark as Paid</button>
-              </td>
-            </tr>
-          <?php endwhile; ?>
-        </table>
-      </form>
-    <?php endif; ?>
+  <h1>Welcome, <?= htmlspecialchars($_SESSION['user_fname']) ?></h1>
+  <h2>Your Bookings</h2>
 
-    <a href="dashboard_manager.php" class="back-link">← Back to Manager Dashboard</a>
-  </div>
+  <h4>Unpaid Bookings</h4>
+  <?php if ($unpaid->num_rows == 0): ?>
+    <p>You have no unpaid bookings.</p>
+  <?php else: ?>
+    <table>
+      <tr>
+        <th>#Booking</th>
+        <th>Room</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Amount</th>
+        <th>Action</th>
+      </tr>
+      <?php while ($row = $unpaid->fetch_assoc()): ?>
+      <tr>
+        <td><?= $row['id'] ?></td>
+        <td><?= $row['room_number'] ?></td>
+        <td><?= $row['check_in_date'] ?></td>
+        <td><?= $row['check_out_date'] ?></td>
+        <td style="text-align: right;">$<?= number_format($row['amount'], 2) ?></td>
+        <td>
+          <form method="post" action="cancel_booking.php" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+            <input type="hidden" name="booking_id" value="<?= $booking['id'] ?>">
+            <button type="submit" class="cancel-btn">Cancel Booking</button>
+          </form>          
+        </td>
+      </tr>
+      <?php endwhile; ?>
+    </table>
+  <?php endif; ?>
+
+  <h4>Paid Bookings</h4>
+  <?php if ($paid->num_rows == 0): ?>
+    <p>You have no paid bookings.</p>
+  <?php else: ?>
+    <table>
+      <tr>
+        <th>#Booking</th>
+        <th>Room</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+        <th>Paid</th>
+      </tr>
+      <?php while ($row = $paid->fetch_assoc()): ?>
+      <tr>
+        <td><?= $row['id'] ?></td>
+        <td><?= $row['room_number'] ?></td>
+        <td><?= $row['check_in_date'] ?></td>
+        <td><?= $row['check_out_date'] ?></td>
+        <td style="text-align: right;">$<?= number_format($row['amount'], 2) ?></td>
+      </tr>
+      <?php endwhile; ?>
+    </table>
+  <?php endif; ?>
+
+  <a href="book_room1.php">Book Another Room</a>
+
+  <form method="post" action="logout.php">
+    <button type="submit" class="logout-btn">Logout</button>
+  </form>
+
 </body>
 </html>
