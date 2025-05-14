@@ -37,14 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <label for="capacity">Capacity</label>
       <input type="number" id="capacity" name="capacity" min="1" required>
 
-      <label for="price">Price (TK)</label>
-      <input type="number" id="price" name="price" min="0" step="1" required>
+      <label for="price">Price ($)</label>
+      <input type="number" id="price" name="price" min="0" step="0.01" required>
 
       <button type="submit">Add Room</button>
     </form>
 
     <br>
-    <a class="back-link" href="dashboard_manager.html">← Back to Manager Dashboard</a>
+    <a class="back-link" href="dashboard_manager.php">← Back to Manager Dashboard</a>
   </div>
 </body>
 </html>
