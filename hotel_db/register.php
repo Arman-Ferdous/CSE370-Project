@@ -1,7 +1,7 @@
 <?php
 // register.php
 include 'dbconnect.php';
-$signup_error = "";
+$register_error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: login.php");
     exit();
   } else {
-    $signup_error = "Error: Username already exists.";
+    $register_error = "Error: Username already exists.";
   }
 }
 ?>
@@ -35,11 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="login-container">
     <h2>Register</h2>
 
-    <?php if (!empty($signup_error)): ?>
-      <p style="color: red; text-align: center;"><strong><?= htmlspecialchars($signup_error) ?></strong></p>
+    <?php if (!empty($register_error)): ?>
+      <p style="color: red; text-align: center;"><strong><?= htmlspecialchars($register_error) ?></strong></p>
     <?php endif; ?>
 
-    <form action="signup.php" method="POST">
+    <form action="register.php" method="POST">
       <div class="form-group">
         <label for="firstName">First Name</label>
         <input type="text" id="firstName" name="first_name" required>
