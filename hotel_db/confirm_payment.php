@@ -21,6 +21,15 @@ $result = $conn->query("SELECT p.booking_id, u.username, r.room_number, b.check_
   <link rel="stylesheet" href="CSS/payment.css">
 </head>
 <body>
+  <div class="top-banner">
+    <div class="left">
+      <a href="dashboard_manager.php"><h2>Manager Dashboard</h2></a>
+    </div>
+    <div class="right">
+      <a href="logout.php" style="color: blue;">Logout</a>
+    </div>
+  </div>
+
   <div class="container">
     <h2>Pending Payments</h2>
 

@@ -23,6 +23,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <link rel="stylesheet" href="CSS/style1.css">
 </head>
 <body>
+  <div class="top-banner">
+    <div class="left">
+      <a href="dashboard_manager.php"><h2>Manager Dashboard</h2></a>
+    </div>
+    <div class="right">
+      <a href="logout.php" style="color: blue;">Logout</a>
+    </div>
+  </div>
+
   <div class="form-container">
     <h2>Add New Room</h2>
     

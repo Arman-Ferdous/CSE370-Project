@@ -49,10 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <div class="login-container">
     <h2>Login</h2>
     
-    <?php if (!empty($message)): ?>
-      <p class="message" style="color: red;"><?= htmlspecialchars($message) ?></p>
-    <?php endif; ?>
-
+    
     <form method="POST" action="login.php">
       <div class="form-group">
         <label for="username">Username</label>
@@ -63,6 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
       </div>
+
+      <?php if (!empty($message)): ?>
+        <p class="message" style="color: red;"><?= htmlspecialchars($message) ?></p>
+      <?php endif; ?>
 
       <button type="submit" class="login-btn">Login</button>
     </form>

@@ -2,23 +2,27 @@
 // register.php
 include 'dbconnect.php';
 $register_error = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
-  $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+  $password = $_POST['password'];
+  $pass2 = $_POST['confirm_password'];
   $fname = $_POST['first_name'];
   $lname = $_POST['last_name'];
-  $email = $_POST['email'];
-  $address = $_POST['address'];
-  $mobile = $_POST['mobile'];
-  $nid = $_POST['nid'];
 
-  $stmt = $conn->prepare("INSERT INTO users (username, password, fname, lname, role) VALUES (?, ?, ?, ?, 'customer')");
-  $stmt->bind_param("ssssssss", $username, $password, $fname, $lname);
-  if ($stmt->execute()) {
-    header("Location: login.php");
-    exit();
-  } else {
-    $register_error = "Error: Username already exists.";
+  if ($password != $pass2) {
+    $register_error = "Passwords do not match.";
+  } 
+  else {
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $stmt = $conn->prepare("INSERT INTO users (username, password, fname, lname, role) VALUES (?, ?, ?, ?, 'customer')");
+    $stmt->bind_param("ssss", $username, $password, $fname, $lname);
+    if ($stmt->execute()) {
+      header("Location: login.php");
+      exit();
+    } else {
+      $register_error = "Error: Username already exists.";
+    }
   }
 }
 ?>

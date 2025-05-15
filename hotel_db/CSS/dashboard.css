@@ -12,8 +12,8 @@ h1 {
 }
 
 h2, h4 {
-  margin-top: 30px;
-  color: #2563eb;
+  margin-top: 10px;
+  color: #005b99;
 }
 
 table {
@@ -37,7 +37,7 @@ td {
 }
 
 button {
-  padding: 6px 12px;
+  padding: 12px 10px;
   background-color: #dc2626;
   color: white;
   border: none;
@@ -69,3 +69,30 @@ form {
   background-color: #2563eb;
   margin-top: 20px;
 }
+
+.top-banner {
+  background-color:#7ab4b880;
+  color: white;
+  text-size-adjust: 100;
+  padding: 5px 20px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.top-banner a {
+  color: white;
+  text-decoration: none;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.top-banner a:hover {
+  text-decoration: underline;
+}
+
+.top-banner .left a {
+  font-size: 15px;
+}
+

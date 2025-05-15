@@ -1,19 +1,23 @@
 <?php
 include 'dbconnect.php';
 session_start();
+
 if ($_SESSION['role'] != 'customer') die('Access denied.');
+
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
   session_unset();
   session_destroy();
   header("Location: login.php");
   exit;
 }
+
 $_SESSION['LAST_ACTIVITY'] = time();
 
 $id = $_SESSION['user_id'];
-$unpaid = $conn->query("SELECT b.id, r.room_number, b.check_in_date, b.check_out_date, p.amount, p.status FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN payments p ON b.id = p.booking_id WHERE b.user_id = $id AND p.status = 'pending'");
+$unpaid = $conn->query("SELECT b.id, r.room_number, b.check_in_date, b.check_out_date, p.amount, p.status FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN payments p ON b.id = p.booking_id WHERE b.user_id = $id AND p.status = 'pending' ORDER BY b.id DESC");
 $paid = $conn->query("SELECT b.id, r.room_number, b.check_in_date, b.check_out_date, p.amount, p.status FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN payments p ON b.id = p.booking_id WHERE b.user_id = $id AND p.status = 'paid'");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +26,17 @@ $paid = $conn->query("SELECT b.id, r.room_number, b.check_in_date, b.check_out_d
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
+  <div class="top-banner">
+    <div class="left">
+      <a href="dashboard_customer.php"><h2>Dashboard</h2></a>
+    </div>
+    <div class="right">
+      <a href="logout.php" style="color: blue;">Logout</a>
+    </div>
+  </div>
 
-  <h1>Welcome, <?= htmlspecialchars($_SESSION['user_fname']) ?></h1>
+  <h3>Welcome, <?= htmlspecialchars($_SESSION['user_fname']) ?></h3>
+
   <h2>Your Bookings</h2>
 
   <h4>Unpaid Bookings</h4>
@@ -46,11 +59,12 @@ $paid = $conn->query("SELECT b.id, r.room_number, b.check_in_date, b.check_out_d
         <td><?= $row['check_in_date'] ?></td>
         <td><?= $row['check_out_date'] ?></td>
         <td style="text-align: right;">$<?= number_format($row['amount'], 2) ?></td>
+
         <td>
           <form method="post" action="cancel_booking.php" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
-            <input type="hidden" name="booking_id" value="<?= $booking['id'] ?>">
+            <input type="hidden" name="booking_id" value="<?= $row['id'] ?>">
             <button type="submit" class="cancel-btn">Cancel Booking</button>
-          </form>          
+          </form>
         </td>
       </tr>
       <?php endwhile; ?>
@@ -81,11 +95,11 @@ $paid = $conn->query("SELECT b.id, r.room_number, b.check_in_date, b.check_out_d
     </table>
   <?php endif; ?>
 
-  <a href="book_room.php">Book Another Room</a>
-
-  <form method="post" action="logout.php">
-    <button type="submit" class="logout-btn">Logout</button>
+  <form method="post" action="book_room.php">
+    <button type="submit" class="logout-btn">Book Another Room</button>
   </form>
+
+  
 
 </body>
 </html>
